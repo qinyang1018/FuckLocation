@@ -52,4 +52,6 @@
     <string name="about_opensource_title">开源许可证</string>
     <string name="no_result">无结果</string>
 
+    <string name="latLong">经纬度:</string>
+
 </resources>

@@ -6,21 +6,17 @@ import android.app.AndroidAppHelper
 import android.content.Context
 import android.os.Build
 import com.github.kyuubiran.ezxhelper.utils.*
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonDataException
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.adapter
+import com.squareup.moshi.*
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import fuck.location.app.ui.models.FakeLocation
 import fuck.location.app.ui.models.FakeLocationHistory
+import fuck.location.app.ui.models.FakeLocationListModel
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import java.io.File
 import java.io.FileNotFoundException
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 import java.lang.reflect.Field
 
 /*
@@ -315,6 +311,36 @@ class ConfigGateway private constructor() {
         }
 
         return jsonAdapterResult
+    }
+
+    fun readFakeLocationList(): List<FakeLocationListModel> {
+        val type = Types.newParameterizedType(List::class.java, FakeLocationListModel::class.java)
+        val jsonAdapter: JsonAdapter<List<FakeLocationListModel>> = moshi.adapter(type)
+        val jsonFile = File("$dataDir/fakeLocationList.json")
+
+        return try {
+            jsonAdapter.fromJson(jsonFile.readText())!!
+        } catch (e:Exception) {
+            XposedBridge.log("FL: [readFakeLocationList] $e")
+            e.printStackTrace()
+            mutableListOf<FakeLocationListModel>()
+        }
+    }
+
+    @ExperimentalStdlibApi
+    fun writeFakeLocationList(fakeLocations: List<FakeLocationListModel>) {
+        val type = Types.newParameterizedType(List::class.java, FakeLocationListModel::class.java)
+        val jsonAdapter: JsonAdapter<List<FakeLocationListModel>> = moshi.adapter(type)
+        val json: String = jsonAdapter.toJson(fakeLocations)
+        Log.d("andy:${json}")
+        val jsonFile = File("$dataDir/fakeLocationList.json")
+
+        if (!jsonFile.exists()) {
+            val jsonFileDirectory = File("$dataDir/")
+            jsonFileDirectory.mkdirs()
+        }
+
+        jsonFile.writeText(json)
     }
 
     @ExperimentalStdlibApi

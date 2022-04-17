@@ -52,4 +52,6 @@
 
     <string name="about_opensource_title">Giấy phép nguồn mở</string>
     <string name="no_result">Không có kết quả</string>
+
+    <string name="latLong">y,x:</string>
 </resources>

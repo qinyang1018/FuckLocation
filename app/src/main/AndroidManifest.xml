@@ -32,6 +32,9 @@
         <activity android:name=".app.ui.activities.AboutActivity"
             android:theme="@style/Theme.FuckLocation.about"/>
 
+        <activity android:name=".app.ui.activities.FakeLocationsActivity"
+            />
+
         <meta-data
             android:name="xposedmodule"
             android:value="true" />

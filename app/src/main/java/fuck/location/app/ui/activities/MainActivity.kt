@@ -53,7 +53,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.menu_settings -> {
-                setFakeLocation()
+                val intent = Intent(this, FakeLocationsActivity::class.java)
+                startActivity(intent)
+//                setFakeLocation()
             }
 
             R.id.menu_about -> {
