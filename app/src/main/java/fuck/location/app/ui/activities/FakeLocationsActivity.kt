@@ -145,7 +145,6 @@ class FakeLocationsActivity : AppCompatActivity() {
     }
 
     private fun updateConfigFakeLocations(){
-        oneAdapter.data
         ConfigGateway.get().writeFakeLocationList(fakeLocationList)
     }
 
